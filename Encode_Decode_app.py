@@ -42,16 +42,15 @@ elif mode == "🔓 Decode":
         else:
             st.warning("Please enter a secret code to decode.")
 
-# Footer - Bottom Right "Created by Debajit"
 st.markdown("""
     <style>
     .footer {
         position: fixed;
         bottom: 10px;
-        right: 10px;
+        left: 10px;  /* Changed from right to left */
         color: #888888;
         font-size: 14px;
-        text-align: right;
+        text-align: left;
         opacity: 0.8;
         z-index: 100;
     }
