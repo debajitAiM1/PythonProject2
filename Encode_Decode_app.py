@@ -1,6 +1,7 @@
 import streamlit as st
 import base64
 import zlib
+import streamlit.components.v1 as components
 
 st.set_page_config(page_title="Secret Message Encoder/Decoder", layout="centered")
 
@@ -27,8 +28,49 @@ if mode == "🔏 Encode":
     if st.button("Encode"):
         if text_input.strip():
             secret = encode_message(text_input.strip())
-            st.success("✅ Here is your secret code:")
-            st.code(secret, language='text')
+            st.success("✅ Message Encoded")
+            st.text_area("Encoded Key:", secret, height=150, key="decoded_text")
+            components.html(f"""
+            <div class="button-wrapper">
+              <textarea id="toCopy" style="position: absolute; left: -9999px;">{secret}</textarea>
+              <button class="normal-button" onclick="copyText()">📋 Copy</button>
+            </div>
+
+            <style>
+              .button-wrapper {{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-top: 30px;
+              }}
+
+              .normal-button {{
+                padding: 12px 30px;
+                font-size: 16px;
+                font-weight: 600;
+                color: white;
+                background-color: #6f42c1;
+                border: none;
+                border-radius: 12px;
+                cursor: pointer;
+                transition: transform 0.2s ease-in-out;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+              }}
+
+              .normal-button:hover {{
+                transform: translateY(-6px) scale(1.05);
+              }}
+            </style>
+
+            <script>
+              function copyText() {{
+                var textArea = document.getElementById("toCopy");
+                textArea.select();
+                document.execCommand("copy");
+                alert("✅ Copied to clipboard!");
+              }}
+            </script>
+            """, height=180)
         else:
             st.warning("Please enter a message to encode.")
 
@@ -37,8 +79,49 @@ elif mode == "🔓 Decode":
     if st.button("Decode"):
         if code_input.strip():
             original = decode_message(code_input.strip())
-            st.success("✅ Decoded Message:")
-            st.code(original, language='text')
+            st.success("✅ Message Decoded")
+            st.text_area("Decoded Text:", original, height=150, key="decoded_text")
+            components.html(f"""
+            <div class="button-wrapper">
+              <textarea id="toCopy" style="position: absolute; left: -9999px;">{original}</textarea>
+              <button class="normal-button" onclick="copyText()">📋 Copy</button>
+            </div>
+
+            <style>
+              .button-wrapper {{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-top: 30px;
+              }}
+
+              .normal-button {{
+                padding: 12px 30px;
+                font-size: 16px;
+                font-weight: 600;
+                color: white;
+                background-color: #6f42c1;
+                border: none;
+                border-radius: 12px;
+                cursor: pointer;
+                transition: transform 0.2s ease-in-out;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+              }}
+
+              .normal-button:hover {{
+                transform: translateY(-6px) scale(1.05);
+              }}
+            </style>
+
+            <script>
+              function copyText() {{
+                var textArea = document.getElementById("toCopy");
+                textArea.select();
+                document.execCommand("copy");
+                alert("✅ Copied to clipboard!");
+              }}
+            </script>
+            """, height=180)
         else:
             st.warning("Please enter a secret code to decode.")
 
